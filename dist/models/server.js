@@ -27,7 +27,7 @@ const userRoute = __importStar(require("../routes/user"));
 class Server {
     constructor() {
         this.apiPaths = {
-            usuarios: 'api/usuarios'
+            usuarios: '/api/usuarios'
         };
         this.app = (0, express_1.default)();
         this.port = process.env.PORT || '8000';
