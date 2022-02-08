@@ -17,7 +17,6 @@ const user_1 = __importDefault(require("../models/user"));
 const getUsuarios = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const usuarios = yield user_1.default.findAll();
     res.json({
-        msg: 'Get Usuarios',
         usuarios
     });
 });

@@ -8,5 +8,14 @@
 </head>
 <body>
   <h1>Acceso Denegado</h1>
+  <button id="move"> Hello </button>
+  <script>
+    const boton = document.getElementById('move');
+    boton.onclick = async() => {
+      const resp = await fetch('http://localhost:8000/api/usuarios/')
+      const data = await resp.json()
+      console.log(data);
+    }
+  </script>
 </body>
 </html>

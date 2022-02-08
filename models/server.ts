@@ -16,7 +16,7 @@ class Server {
     this.port = process.env.PORT || '8000';
     this.dbConnection();
     this.middlewares();
-    this.routes();
+    this.routes();  
   }
 
   async dbConnection(){
