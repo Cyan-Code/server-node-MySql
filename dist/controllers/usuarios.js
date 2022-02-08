@@ -81,12 +81,24 @@ const updatedUsuario = (req, res) => __awaiter(void 0, void 0, void 0, function*
     }
 });
 exports.updatedUsuario = updatedUsuario;
-const deleteUsuario = (req, res) => {
+const deleteUsuario = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
-    res.json({
-        msg: 'delete Usuario',
-        id
-    });
-};
+    try {
+        const idUserExist = yield user_1.default.findByPk(id);
+        if (!idUserExist) {
+            return res.status(404).json({
+                msg: 'No existe un usuario con el ID' + id
+            });
+        }
+        yield idUserExist.update({ estado: false });
+        return res.json(idUserExist);
+    }
+    catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            msg: 'Hable con el administrador'
+        });
+    }
+});
 exports.deleteUsuario = deleteUsuario;
 //# sourceMappingURL=usuarios.js.map

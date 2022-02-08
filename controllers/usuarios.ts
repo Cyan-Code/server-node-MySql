@@ -71,14 +71,24 @@ export const updatedUsuario = async (req:Request, res:Response) => {
   }
 }
 
-export const deleteUsuario = (req:Request, res:Response) => {
+export const deleteUsuario = async (req:Request, res:Response) => {
   const { id } = req.params;
+  try {
+    const idUserExist = await Usuario.findByPk(id);
+    if(!idUserExist){
+      return res.status(404).json({
+        msg:'No existe un usuario con el ID' + id
+      })
+    }
+    await idUserExist.update({estado: false})
+    return res.json(idUserExist)
 
-  res.json({
-    msg: 'delete Usuario',
-    id
-  })
-
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      msg: 'Hable con el administrador'
+    })
+  }
 }
 
 
