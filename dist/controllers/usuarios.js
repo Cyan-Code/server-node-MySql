@@ -36,17 +36,8 @@ const getUsuario = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
 exports.getUsuario = getUsuario;
 const postUsuario = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { body } = req;
+    console.log('Exito');
     try {
-        const existeEmail = yield user_1.default.findOne({
-            where: {
-                email: body.email
-            }
-        });
-        if (existeEmail) {
-            return res.status(400).json({
-                msg: 'Ya existe un usuario con el email'
-            });
-        }
         const usuario = new user_1.default(body);
         yield usuario.save();
         return res.json(usuario);

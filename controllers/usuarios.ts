@@ -23,17 +23,8 @@ export const getUsuario = async (req:Request, res:Response) => {
 
 export const postUsuario = async (req:Request, res:Response) => {
   const { body } = req;
+  console.log('Exito');
   try {
-    const existeEmail = await Usuario.findOne({
-      where: {
-        email: body.email
-      }
-    })
-    if (existeEmail) {
-      return res.status(400).json({
-        msg: 'Ya existe un usuario con el email'
-      })
-    }
     const usuario = new Usuario(body)
     await usuario.save();
     return res.json(usuario)

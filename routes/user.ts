@@ -7,11 +7,17 @@ import {
   updatedUsuario
 } from "../controllers/usuarios";
 
+import { validarCampos } from "../middlewares/validar-campos";
+
 const router = Router();
 
 router.get('/',     getUsuarios);
 router.get('/:id',  getUsuario);
-router.post('/',    postUsuario);
+router.post('/',
+[
+  validarCampos
+],
+postUsuario);
 router.put('/:id',  updatedUsuario);
 router.delete('/:id',  deleteUsuario);
 
