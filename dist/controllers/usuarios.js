@@ -14,6 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteUsuario = exports.updatedUsuario = exports.postUsuario = exports.getUsuario = exports.getUsuarios = void 0;
 const user_1 = __importDefault(require("../models/user"));
+const bcrypt_1 = __importDefault(require("bcrypt"));
 const getUsuarios = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const usuarios = yield user_1.default.findAll();
     res.json({
@@ -36,11 +37,18 @@ const getUsuario = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
 exports.getUsuario = getUsuario;
 const postUsuario = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { body } = req;
-    console.log('Exito');
+    const { nombre, email } = req.body;
+    const salt = bcrypt_1.default.genSaltSync();
+    body.password = bcrypt_1.default.hashSync(body.password, salt);
     try {
         const usuario = new user_1.default(body);
         yield usuario.save();
-        return res.json(usuario);
+        return res.json({
+            state: 'ok',
+            msg: 'usuario grabado exitosamente',
+            nombre,
+            email
+        });
     }
     catch (error) {
         console.log(error);
@@ -60,6 +68,8 @@ const updatedUsuario = (req, res) => __awaiter(void 0, void 0, void 0, function*
                 msg: 'No existe un usuario con el ID' + id
             });
         }
+        const salt = bcrypt_1.default.genSaltSync();
+        body.password = bcrypt_1.default.hashSync(body.password, salt);
         yield idUserExist.update(body);
         return res.json(idUserExist);
     }

@@ -4,7 +4,7 @@ import Usuario from "../models/user";
 export const validarCampos = async (req:Request, resp:Response, next:NextFunction) => {
   const { body } = req;
   try {
-    if (!body.password || !body.name) {
+    if (!body.password || !body.nombre) {
       return resp.status(400).json({
         msg: 'Falta nombre o password'
       })

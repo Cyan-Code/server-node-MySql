@@ -33,12 +33,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const userRoute = __importStar(require("../routes/user"));
+const authRouter = __importStar(require("../routes/autenticacion"));
 const cors_1 = __importDefault(require("cors"));
 const connection_1 = __importDefault(require("../db/connection"));
 class Server {
     constructor() {
         this.apiPaths = {
-            usuarios: '/api/usuarios'
+            usuarios: '/api/usuarios',
+            auth: '/api/auth'
         };
         this.app = (0, express_1.default)();
         this.port = process.env.PORT || '8000';
@@ -53,7 +55,7 @@ class Server {
                 console.log('db online');
             }
             catch (error) {
-                throw new Error(`${error}: Osea, efesota`);
+                throw new Error(`${error}: O sea, efesota`);
             }
         });
     }
@@ -67,6 +69,7 @@ class Server {
     }
     routes() {
         this.app.use(this.apiPaths.usuarios, userRoute.default);
+        this.app.use(this.apiPaths.auth, authRouter.default);
     }
     listen() {
         this.app.listen(this.port, () => {

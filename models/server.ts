@@ -1,5 +1,6 @@
 import express, {Application} from 'express';
 import * as userRoute from '../routes/user';
+import * as authRouter from '../routes/autenticacion';
 import cors from 'cors';
 
 import db from '../db/connection';
@@ -8,7 +9,8 @@ class Server {
   private app:Application;
   private port:string;
   private apiPaths = {
-    usuarios: '/api/usuarios'
+    usuarios: '/api/usuarios',
+    auth: '/api/auth'
   }
 
   constructor ( ) {
@@ -26,7 +28,7 @@ class Server {
       console.log('db online');
 
     } catch (error) {
-      throw new Error(`${error}: Osea, efesota`);
+      throw new Error(`${error}: O sea, efesota`);
     }
   }
 
@@ -41,6 +43,7 @@ class Server {
 
   routes(){
     this.app.use(this.apiPaths.usuarios, userRoute.default);
+    this.app.use(this.apiPaths.auth, authRouter.default);
   }
 
   listen(){

@@ -9,7 +9,9 @@ router.get('/:id', usuarios_1.getUsuario);
 router.post('/', [
     validar_campos_1.validarCampos
 ], usuarios_1.postUsuario);
-router.put('/:id', usuarios_1.updatedUsuario);
+router.put('/:id', [
+    validar_campos_1.validarCampos
+], usuarios_1.updatedUsuario);
 router.delete('/:id', usuarios_1.deleteUsuario);
 exports.default = router;
 //# sourceMappingURL=user.js.map

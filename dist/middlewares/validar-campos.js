@@ -17,7 +17,7 @@ const user_1 = __importDefault(require("../models/user"));
 const validarCampos = (req, resp, next) => __awaiter(void 0, void 0, void 0, function* () {
     const { body } = req;
     try {
-        if (!body.password || !body.name) {
+        if (!body.password || !body.nombre) {
             return resp.status(400).json({
                 msg: 'Falta nombre o password'
             });

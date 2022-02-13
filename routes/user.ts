@@ -13,12 +13,15 @@ const router = Router();
 
 router.get('/',     getUsuarios);
 router.get('/:id',  getUsuario);
-router.post('/',
-[
+
+router.post('/',[
   validarCampos
-],
-postUsuario);
-router.put('/:id',  updatedUsuario);
+],postUsuario);
+
+router.put('/:id',[
+  validarCampos
+],updatedUsuario);
+
 router.delete('/:id',  deleteUsuario);
 
 
