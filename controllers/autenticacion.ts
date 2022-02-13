@@ -3,7 +3,9 @@ import Usuario from "../models/user";
 import bcrypt from 'bcrypt';
 
 export const autenticacion = (req:Request, resp:Response) => {
-  resp.json({
-    msg: 'ok'
+  const {body} = req
+  return resp.json({
+    msg: 'ok',
+    body
   })
 }

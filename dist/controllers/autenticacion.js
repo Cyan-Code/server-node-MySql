@@ -2,8 +2,10 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.autenticacion = void 0;
 const autenticacion = (req, resp) => {
-    resp.json({
-        msg: 'ok'
+    const { body } = req;
+    return resp.json({
+        msg: 'ok',
+        body
     });
 };
 exports.autenticacion = autenticacion;
