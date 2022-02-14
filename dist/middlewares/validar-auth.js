@@ -12,10 +12,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.validarCampos = void 0;
+exports.validarAuth = void 0;
 const express_validator_1 = require("express-validator");
 const user_1 = __importDefault(require("../models/user"));
-const validarCampos = (req, resp, next) => __awaiter(void 0, void 0, void 0, function* () {
+const validarAuth = (req, resp, next) => __awaiter(void 0, void 0, void 0, function* () {
     const { body } = req;
     const errors = (0, express_validator_1.validationResult)(req);
     if (!errors.isEmpty()) {
@@ -27,9 +27,11 @@ const validarCampos = (req, resp, next) => __awaiter(void 0, void 0, void 0, fun
                 email: body.email,
             }
         });
-        if (existeEmail) {
+        //TODO: Terminar la sincronizacion de bcrypt para verificar la autenticidad
+        console.log(existeEmail === null || existeEmail === void 0 ? void 0 : existeEmail.get().password);
+        if (!existeEmail) {
             return resp.status(400).json({
-                msg: 'Ya existe un usuario con el email'
+                msg: 'Revisa tu Email o usuario'
             });
         }
     }
@@ -41,5 +43,5 @@ const validarCampos = (req, resp, next) => __awaiter(void 0, void 0, void 0, fun
     }
     next();
 });
-exports.validarCampos = validarCampos;
-//# sourceMappingURL=validar-campos.js.map
+exports.validarAuth = validarAuth;
+//# sourceMappingURL=validar-auth.js.map

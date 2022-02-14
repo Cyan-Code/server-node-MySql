@@ -1,4 +1,6 @@
 import { Router } from "express";
+import {check} from 'express-validator';
+
 import {
   deleteUsuario,
   getUsuario,
@@ -15,6 +17,9 @@ router.get('/',     getUsuarios);
 router.get('/:id',  getUsuario);
 
 router.post('/',[
+  check('nombre', 'El nombre es obligatorio').notEmpty(),
+  check('password', 'La contraseña es obligatoria').notEmpty(),
+  check('email', 'El email es obligatorio').notEmpty(),
   validarCampos
 ],postUsuario);
 
