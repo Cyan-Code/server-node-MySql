@@ -21,7 +21,7 @@ router.post('/',[
   check('password', 'La contraseña es obligatoria').notEmpty(),
   check('email', 'El email es obligatorio').notEmpty(),
   validarCampos
-],postUsuario);
+], postUsuario);
 
 router.put('/:id',[
   validarCampos
