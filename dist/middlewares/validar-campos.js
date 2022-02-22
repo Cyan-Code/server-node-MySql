@@ -21,23 +21,46 @@ const validarCampos = (req, resp, next) => __awaiter(void 0, void 0, void 0, fun
     if (!errors.isEmpty()) {
         return resp.json(errors);
     }
-    try {
-        const existeEmail = yield user_1.default.findOne({
-            where: {
-                email: body.email,
+    if (req.method === 'PUT') {
+        const id = req.params.id;
+        try {
+            const existeUser = yield user_1.default.findOne({
+                where: {
+                    email: body.email,
+                    id
+                }
+            });
+            // TODO: esto se puede mejorar con el token de acceso
+            if (!existeUser) {
+                return resp.status(400).json({
+                    msg: 'No tienes permisos para editar este usuario'
+                });
             }
-        });
-        if (existeEmail) {
-            return resp.status(400).json({
-                msg: 'Ya existe un usuario con el email'
+        }
+        catch (error) {
+            return resp.status(500).json({
+                msg: 'Hable con el admin'
             });
         }
     }
-    catch (error) {
-        console.log(error);
-        return resp.status(500).json({
-            msg: 'Hable con el admin'
-        });
+    if (req.method === 'POST') {
+        try {
+            const existeEmail = yield user_1.default.findOne({
+                where: {
+                    email: body.email,
+                }
+            });
+            if (existeEmail) {
+                return resp.status(400).json({
+                    msg: 'Ya existe un usuario con el email'
+                });
+            }
+        }
+        catch (error) {
+            return resp.status(500).json({
+                msg: 'Hable con el admin'
+            });
+        }
     }
     next();
 });

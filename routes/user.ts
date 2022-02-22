@@ -24,8 +24,11 @@ router.post('/',[
 ], postUsuario);
 
 router.put('/:id',[
+  check('nombre', 'El nombre es obligatorio').notEmpty(),
+  check('password', 'La contraseña es obligatoria').notEmpty(),
+  check('email', 'Email en incorrecto formato').isEmail(),
   validarCampos
-],updatedUsuario);
+], updatedUsuario);
 
 router.delete('/:id',  deleteUsuario);
 

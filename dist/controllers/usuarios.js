@@ -16,7 +16,11 @@ exports.deleteUsuario = exports.updatedUsuario = exports.postUsuario = exports.g
 const user_1 = __importDefault(require("../models/user"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const getUsuarios = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const usuarios = yield user_1.default.findAll();
+    const usuarios = yield user_1.default.findAll({
+        where: {
+            estado: true
+        }
+    });
     res.json({
         usuarios
     });
@@ -74,7 +78,6 @@ const updatedUsuario = (req, res) => __awaiter(void 0, void 0, void 0, function*
         return res.json(idUserExist);
     }
     catch (error) {
-        console.log(error);
         return res.status(500).json({
             msg: 'Hable con el administrador'
         });
@@ -101,4 +104,5 @@ const deleteUsuario = (req, res) => __awaiter(void 0, void 0, void 0, function* 
     }
 });
 exports.deleteUsuario = deleteUsuario;
+//TODO: validacion de contraseña
 //# sourceMappingURL=usuarios.js.map

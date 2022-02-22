@@ -3,14 +3,18 @@ import Usuario from "../models/user";
 import bcrypt from 'bcrypt';
 
 export const getUsuarios = async (req:Request, res:Response) => {
-  const usuarios = await Usuario.findAll();
+  const usuarios = await Usuario.findAll({
+    where: {
+      estado: true
+    }
+  });
   res.json({
     usuarios
   })
 }
 
 export const getUsuario = async (req:Request, res:Response) => {
-
+  
   const { id } = req.params;
   const usuario = await Usuario.findByPk(id);
   if (usuario) {
@@ -64,14 +68,13 @@ export const updatedUsuario = async (req:Request, res:Response) => {
     return res.json(idUserExist)
 
   } catch (error) {
-    console.log(error);
     return res.status(500).json({
       msg: 'Hable con el administrador'
     })
   }
 }
 
-export const deleteUsuario = async (req:Request, res:Response) => {
+export const deleteUsuario = async (req:Request, res:Response) => {//TODO: for end
   const { id } = req.params;
   try {
     const idUserExist = await Usuario.findByPk(id);
@@ -92,5 +95,5 @@ export const deleteUsuario = async (req:Request, res:Response) => {
 }
 
 
-
+//TODO: validacion de contraseña
 

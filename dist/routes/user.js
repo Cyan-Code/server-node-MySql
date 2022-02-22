@@ -14,6 +14,9 @@ router.post('/', [
     validar_campos_1.validarCampos
 ], usuarios_1.postUsuario);
 router.put('/:id', [
+    (0, express_validator_1.check)('nombre', 'El nombre es obligatorio').notEmpty(),
+    (0, express_validator_1.check)('password', 'La contraseña es obligatoria').notEmpty(),
+    (0, express_validator_1.check)('email', 'Email en incorrecto formato').isEmail(),
     validar_campos_1.validarCampos
 ], usuarios_1.updatedUsuario);
 router.delete('/:id', usuarios_1.deleteUsuario);
