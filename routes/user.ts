@@ -37,6 +37,4 @@ router.delete('/',[
   check('confirmar', 'Debe de tener una confirmacion valida').toBoolean().equals('true')
 ],deleteAllUsers);
 
-
-
 export default router;
