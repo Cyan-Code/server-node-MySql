@@ -1,4 +1,5 @@
 import { Response, Request } from "express";
+import { validationResult } from "express-validator";
 import Usuario from "../models/user";
 import bcrypt from 'bcrypt';
 
@@ -92,6 +93,24 @@ export const deleteUsuario = async (req:Request, res:Response) => {
       msg: 'Hable con el administrador'
     })
   }
+}
+
+export const deleteAllUsers = async (req:Request, res:Response) => {
+  const errors = validationResult(req)
+  if (!errors.isEmpty()) {
+    return res.status(404).json(errors)
+  }
+  
+  const deleteAll = await Usuario.findAll({
+    where: {
+      estado: true
+    }
+  })
+  deleteAll.forEach(async (user)=>{
+    await user.update({estado: false})
+  })
+  
+  return res.json(deleteAll)
 }
 
 

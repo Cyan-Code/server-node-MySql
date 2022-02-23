@@ -12,7 +12,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteUsuario = exports.updatedUsuario = exports.postUsuario = exports.getUsuario = exports.getUsuarios = void 0;
+exports.deleteAllUsers = exports.deleteUsuario = exports.updatedUsuario = exports.postUsuario = exports.getUsuario = exports.getUsuarios = void 0;
+const express_validator_1 = require("express-validator");
 const user_1 = __importDefault(require("../models/user"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const getUsuarios = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -104,5 +105,21 @@ const deleteUsuario = (req, res) => __awaiter(void 0, void 0, void 0, function* 
     }
 });
 exports.deleteUsuario = deleteUsuario;
+const deleteAllUsers = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const errors = (0, express_validator_1.validationResult)(req);
+    if (!errors.isEmpty()) {
+        return res.status(404).json(errors);
+    }
+    const deleteAll = yield user_1.default.findAll({
+        where: {
+            estado: true
+        }
+    });
+    deleteAll.forEach((user) => __awaiter(void 0, void 0, void 0, function* () {
+        yield user.update({ estado: false });
+    }));
+    return res.json(deleteAll);
+});
+exports.deleteAllUsers = deleteAllUsers;
 //TODO: validacion de contraseña
 //# sourceMappingURL=usuarios.js.map

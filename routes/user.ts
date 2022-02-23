@@ -2,6 +2,7 @@ import { Router } from "express";
 import {check} from 'express-validator';
 
 import {
+  deleteAllUsers,
   deleteUsuario,
   getUsuario,
   getUsuarios,
@@ -31,6 +32,10 @@ router.put('/:id',[
 ], updatedUsuario);
 
 router.delete('/:id',  deleteUsuario);
+
+router.delete('/',[
+  check('confirmar', 'Debe de tener una confirmacion valida').toBoolean().equals('true')
+],deleteAllUsers);
 
 
 

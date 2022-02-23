@@ -20,5 +20,8 @@ router.put('/:id', [
     validar_campos_1.validarCampos
 ], usuarios_1.updatedUsuario);
 router.delete('/:id', usuarios_1.deleteUsuario);
+router.delete('/', [
+    (0, express_validator_1.check)('confirmar', 'Debe de tener una confirmacion valida').toBoolean().equals('true')
+], usuarios_1.deleteAllUsers);
 exports.default = router;
 //# sourceMappingURL=user.js.map
