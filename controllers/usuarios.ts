@@ -74,7 +74,7 @@ export const updatedUsuario = async (req:Request, res:Response) => {
   }
 }
 
-export const deleteUsuario = async (req:Request, res:Response) => {//TODO: for end
+export const deleteUsuario = async (req:Request, res:Response) => {
   const { id } = req.params;
   try {
     const idUserExist = await Usuario.findByPk(id);
