@@ -113,6 +113,3 @@ export const deleteAllUsers = async (req:Request, res:Response) => {
   return res.json(deleteAll)
 }
 
-
-//TODO: validacion de contraseña
-

@@ -121,5 +121,4 @@ const deleteAllUsers = (req, res) => __awaiter(void 0, void 0, void 0, function*
     return res.json(deleteAll);
 });
 exports.deleteAllUsers = deleteAllUsers;
-//TODO: validacion de contraseña
 //# sourceMappingURL=usuarios.js.map
