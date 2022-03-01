@@ -1,7 +1,7 @@
 import { Response, Request } from "express";
 import { validationResult } from "express-validator";
+import { deCrypt, encript } from "../helpers/encript";
 import Usuario from "../models/user";
-import bcrypt from 'bcrypt';
 
 export const getUsuarios = async (req:Request, res:Response) => {
   const usuarios = await Usuario.findAll({
@@ -30,8 +30,9 @@ export const getUsuario = async (req:Request, res:Response) => {
 export const postUsuario = async (req:Request, res:Response) => {
   const { body } = req;
   const { nombre, email } = req.body;
-  const salt = bcrypt.genSaltSync();
-  body.password = bcrypt.hashSync(body.password, salt);
+  
+  body.password = encript(body.password);
+  const passwordDecrypt = deCrypt(body.password)
   
   try {
     const usuario = new Usuario(body)
@@ -40,7 +41,8 @@ export const postUsuario = async (req:Request, res:Response) => {
       state: 'ok',
       msg: 'usuario grabado exitosamente',
       nombre,
-      email
+      email,
+      passwordDecrypt
     })
 
   } catch (error) {
@@ -62,8 +64,8 @@ export const updatedUsuario = async (req:Request, res:Response) => {
         msg:'No existe un usuario con el ID' + id
       })
     }
-    const salt = bcrypt.genSaltSync();
-    body.password = bcrypt.hashSync(body.password, salt);
+
+    body.password = encript(body.password);
 
     await idUserExist.update(body)
     return res.json(idUserExist)

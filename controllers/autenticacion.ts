@@ -1,6 +1,6 @@
-import { Response, Request } from "express";
-import Usuario from "../models/user";
-import bcrypt from 'bcrypt';
+import { Response, Request } from 'express';
+import { deCrypt } from '../helpers/encript';
+import Usuario from '../models/user';
 
 export const autenticacion = async(req:Request, resp:Response) => {
   const {email, password} = req.body
@@ -17,9 +17,8 @@ export const autenticacion = async(req:Request, resp:Response) => {
       })
     }
     const user = existeEmail.toJSON()
-    const validPassword = bcrypt.compareSync( password, user.password );
-    
-    if (!validPassword) {
+    const validPassword = deCrypt( user.password );
+    if (validPassword !== password) {
       return resp.status(400).json({
         msg: 'Usuario / password no son correctas'
       })

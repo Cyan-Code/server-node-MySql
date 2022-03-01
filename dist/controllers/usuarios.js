@@ -14,8 +14,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteAllUsers = exports.deleteUsuario = exports.updatedUsuario = exports.postUsuario = exports.getUsuario = exports.getUsuarios = void 0;
 const express_validator_1 = require("express-validator");
+const encript_1 = require("../helpers/encript");
 const user_1 = __importDefault(require("../models/user"));
-const bcrypt_1 = __importDefault(require("bcrypt"));
 const getUsuarios = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const usuarios = yield user_1.default.findAll({
         where: {
@@ -43,8 +43,8 @@ exports.getUsuario = getUsuario;
 const postUsuario = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { body } = req;
     const { nombre, email } = req.body;
-    const salt = bcrypt_1.default.genSaltSync();
-    body.password = bcrypt_1.default.hashSync(body.password, salt);
+    body.password = (0, encript_1.encript)(body.password);
+    const passwordDecrypt = (0, encript_1.deCrypt)(body.password);
     try {
         const usuario = new user_1.default(body);
         yield usuario.save();
@@ -52,7 +52,8 @@ const postUsuario = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
             state: 'ok',
             msg: 'usuario grabado exitosamente',
             nombre,
-            email
+            email,
+            passwordDecrypt
         });
     }
     catch (error) {
@@ -73,8 +74,7 @@ const updatedUsuario = (req, res) => __awaiter(void 0, void 0, void 0, function*
                 msg: 'No existe un usuario con el ID' + id
             });
         }
-        const salt = bcrypt_1.default.genSaltSync();
-        body.password = bcrypt_1.default.hashSync(body.password, salt);
+        body.password = (0, encript_1.encript)(body.password);
         yield idUserExist.update(body);
         return res.json(idUserExist);
     }

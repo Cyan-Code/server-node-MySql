@@ -13,8 +13,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.autenticacion = void 0;
+const encript_1 = require("../helpers/encript");
 const user_1 = __importDefault(require("../models/user"));
-const bcrypt_1 = __importDefault(require("bcrypt"));
 const autenticacion = (req, resp) => __awaiter(void 0, void 0, void 0, function* () {
     const { email, password } = req.body;
     try {
@@ -30,8 +30,8 @@ const autenticacion = (req, resp) => __awaiter(void 0, void 0, void 0, function*
             });
         }
         const user = existeEmail.toJSON();
-        const validPassword = bcrypt_1.default.compareSync(password, user.password);
-        if (!validPassword) {
+        const validPassword = (0, encript_1.deCrypt)(user.password);
+        if (validPassword !== password) {
             return resp.status(400).json({
                 msg: 'Usuario / password no son correctas'
             });
